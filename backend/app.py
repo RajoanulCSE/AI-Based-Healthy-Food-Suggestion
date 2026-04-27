@@ -113,8 +113,279 @@ def bmi_category(bmi):
         return "Obese"
 
 # ----------------------------
-# Food Suggestion Function
+# Food Database with Nutritional Info
 # ----------------------------
+FOOD_DATABASE = {
+    "proteins": [
+        {"name": "Grilled Chicken Breast", "calories": 165, "protein": 31, "carbs": 0, "fat": 3.6, "category": "lean protein"},
+        {"name": "Salmon", "calories": 208, "protein": 20, "carbs": 0, "fat": 13, "category": "fatty fish"},
+        {"name": "Eggs", "calories": 155, "protein": 13, "carbs": 1.1, "fat": 11, "category": "whole egg"},
+        {"name": "Tuna", "calories": 132, "protein": 28, "carbs": 0, "fat": 1, "category": "lean fish"},
+        {"name": "Turkey Breast", "calories": 135, "protein": 30, "carbs": 0, "fat": 1, "category": "lean protein"},
+        {"name": "Greek Yogurt", "calories": 100, "protein": 17, "carbs": 6, "fat": 0.7, "category": "dairy"},
+        {"name": "Cottage Cheese", "calories": 98, "protein": 11, "carbs": 3.4, "fat": 4.3, "category": "dairy"},
+        {"name": "Tofu", "calories": 76, "protein": 8, "carbs": 1.9, "fat": 4.8, "category": "plant protein"},
+        {"name": "Lentils", "calories": 116, "protein": 9, "carbs": 20, "fat": 0.4, "category": "legumes"},
+        {"name": "Black Beans", "calories": 132, "protein": 8.9, "carbs": 23.7, "fat": 0.5, "category": "legumes"},
+    ],
+    "carbohydrates": [
+        {"name": "Brown Rice", "calories": 111, "protein": 2.6, "carbs": 23, "fat": 0.9, "category": "whole grain"},
+        {"name": "Oats", "calories": 68, "protein": 2.4, "carbs": 12, "fat": 1.4, "category": "whole grain"},
+        {"name": "Sweet Potatoes", "calories": 86, "protein": 1.6, "carbs": 20, "fat": 0.1, "category": "root vegetable"},
+        {"name": "Quinoa", "calories": 120, "protein": 4.4, "carbs": 21, "fat": 1.9, "category": "pseudo-cereal"},
+        {"name": "Whole Wheat Bread", "calories": 81, "protein": 4, "carbs": 14, "fat": 1.1, "category": "whole grain"},
+        {"name": "Banana", "calories": 89, "protein": 1.1, "carbs": 23, "fat": 0.3, "category": "fruit"},
+        {"name": "Apple", "calories": 52, "protein": 0.3, "carbs": 14, "fat": 0.2, "category": "fruit"},
+    ],
+    "vegetables": [
+        {"name": "Broccoli", "calories": 34, "protein": 2.8, "carbs": 7, "fat": 0.4, "category": "cruciferous"},
+        {"name": "Spinach", "calories": 23, "protein": 2.9, "carbs": 3.6, "fat": 0.4, "category": "leafy green"},
+        {"name": "Carrots", "calories": 41, "protein": 0.9, "carbs": 10, "fat": 0.2, "category": "root vegetable"},
+        {"name": "Bell Peppers", "calories": 31, "protein": 1, "carbs": 6, "fat": 0.3, "category": "capsicum"},
+        {"name": "Cucumber", "calories": 16, "protein": 0.7, "carbs": 3.6, "fat": 0.1, "category": "cucurbit"},
+        {"name": "Tomatoes", "calories": 18, "protein": 0.9, "carbs": 3.9, "fat": 0.2, "category": "nightshade"},
+        {"name": "Kale", "calories": 49, "protein": 4.3, "carbs": 8.8, "fat": 0.9, "category": "leafy green"},
+        {"name": "Cauliflower", "calories": 25, "protein": 1.9, "carbs": 5, "fat": 0.3, "category": "cruciferous"},
+    ],
+    "fruits": [
+        {"name": "Papaya", "calories": 43, "protein": 0.5, "carbs": 11, "fat": 0.3, "category": "tropical"},
+        {"name": "Blueberries", "calories": 57, "protein": 0.7, "carbs": 14, "fat": 0.3, "category": "berry"},
+        {"name": "Strawberries", "calories": 32, "protein": 0.7, "carbs": 7.7, "fat": 0.3, "category": "berry"},
+        {"name": "Orange", "calories": 47, "protein": 0.9, "carbs": 12, "fat": 0.1, "category": "citrus"},
+        {"name": "Mango", "calories": 60, "protein": 0.8, "carbs": 15, "fat": 0.4, "category": "tropical"},
+        {"name": "Watermelon", "calories": 30, "protein": 0.6, "carbs": 7.6, "fat": 0.2, "category": "melon"},
+    ],
+    "healthy_fats": [
+        {"name": "Avocado", "calories": 160, "protein": 2, "carbs": 8.5, "fat": 15, "category": "fruit"},
+        {"name": "Almonds", "calories": 164, "protein": 6, "carbs": 6, "fat": 14, "category": "nuts"},
+        {"name": "Peanut Butter", "calories": 188, "protein": 8, "carbs": 6, "fat": 16, "category": "nut butter"},
+        {"name": "Walnuts", "calories": 185, "protein": 4.3, "carbs": 3.9, "fat": 18, "category": "nuts"},
+        {"name": "Olive Oil", "calories": 119, "protein": 0, "carbs": 0, "fat": 13.5, "category": "oils"},
+        {"name": "Chia Seeds", "calories": 137, "protein": 4.7, "carbs": 12, "fat": 8.7, "category": "seeds"},
+    ],
+    "snacks": [
+        {"name": "Hummus with Veggies", "calories": 166, "protein": 8, "carbs": 14, "fat": 8, "category": "dip"},
+        {"name": "Protein Shake", "calories": 120, "protein": 24, "carbs": 3, "fat": 1, "category": "beverage"},
+        {"name": "Trail Mix", "calories": 173, "protein": 5, "carbs": 17, "fat": 11, "category": "mix"},
+    ]
+}
+
+
+@app.route("/api/foods", methods=["GET"])
+def get_food_database():
+    """Get the complete food database"""
+    return jsonify({
+        "success": True,
+        "foods": FOOD_DATABASE,
+        "categories": list(FOOD_DATABASE.keys())
+    })
+
+
+@app.route("/api/foods/<category>", methods=["GET"])
+def get_foods_by_category(category):
+    """Get foods by specific category"""
+    category = category.lower()
+    if category in FOOD_DATABASE:
+        return jsonify({
+            "success": True,
+            "category": category,
+            "foods": FOOD_DATABASE[category]
+        })
+    return jsonify({"error": f"Category '{category}' not found"}), 404
+
+
+@app.route("/api/food_suggestion", methods=["POST"])
+def api_food_suggestion():
+    """
+    Dedicated food suggestion API endpoint
+    Provides detailed nutritional information with recommendations
+    """
+    data = request.get_json(force=True, silent=True)
+    if not data:
+        return jsonify(error="Invalid JSON payload"), 400
+
+    try:
+        weight = float(data.get("weight", 0))
+        height = float(data.get("height", 0))
+    except (ValueError, TypeError):
+        return jsonify(error="Weight and height must be numbers"), 400
+
+    if weight <= 0 or height <= 0:
+        return jsonify(error="Weight and height must be greater than zero"), 400
+
+    # Get parameters
+    activity = data.get("activity", "medium").lower()
+    goal = data.get("goal", "maintain").lower()
+    skin_disease = data.get("skin_disease", False)
+    allergies = data.get("allergies", [])
+    dietary_preference = data.get("diet", "balanced")  # balanced, vegetarian, vegan
+
+    # Calculate BMI
+    bmi = calculate_bmi(weight, height)
+    category = bmi_category(bmi)
+
+    # Normalize goal
+    if goal in ["lose", "weight loss"]:
+        goal = "weight loss"
+    elif goal in ["gain", "muscle gain"]:
+        goal = "muscle gain"
+    else:
+        goal = "maintenance"
+
+    # Normalize activity
+    if activity in ["sedentary", "low"]:
+        activity = "low"
+    elif activity in ["light", "medium"]:
+        activity = "medium"
+    else:
+        activity = "high"
+
+    # Generate suggestions based on goal
+    suggestions = []
+    total_nutrition = {"calories": 0, "protein": 0, "carbs": 0, "fat": 0}
+
+    if goal == "weight loss":
+        # Low calorie, high protein foods
+        for food in FOOD_DATABASE["proteins"][:3]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["vegetables"][:3]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["fruits"][:2]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+
+    elif goal == "muscle gain":
+        # High protein, high calorie foods
+        for food in FOOD_DATABASE["proteins"]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["carbohydrates"][:3]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["healthy_fats"][:2]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+
+    else:  # maintenance
+        # Balanced mix
+        for food in FOOD_DATABASE["proteins"][:2]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["carbohydrates"][:2]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["vegetables"][:2]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+        for food in FOOD_DATABASE["fruits"][:2]:
+            if not _is_allergic(food["name"], allergies):
+                suggestions.append(food)
+
+    # Filter based on skin disease
+    if skin_disease:
+        suggestions = [f for f in suggestions if f["name"] not in [
+            "Greek Yogurt", "Cottage Cheese", "Milk / Protein shake", "Peanut Butter"
+        ]]
+
+    # Calculate total nutrition
+    for food in suggestions:
+        total_nutrition["calories"] += food["calories"]
+        total_nutrition["protein"] += food["protein"]
+        total_nutrition["carbs"] += food["carbs"]
+        total_nutrition["fat"] += food["fat"]
+
+    # Build response
+    response = {
+        "success": True,
+        "user_data": {
+            "weight": weight,
+            "height": height,
+            "bmi": bmi,
+            "bmi_category": category,
+            "goal": goal,
+            "activity_level": activity
+        },
+        "suggestions": suggestions,
+        "total_nutrition": {k: round(v, 1) for k, v in total_nutrition.items()},
+        "meals": {
+            "breakfast": _suggest_meal(suggestions, "breakfast", allergies),
+            "lunch": _suggest_meal(suggestions, "lunch", allergies),
+            "dinner": _suggest_meal(suggestions, "dinner", allergies)
+        },
+        "tips": _get_nutrition_tips(goal, category, activity)
+    }
+
+    return jsonify(response)
+
+
+def _is_allergic(food_name, allergies):
+    """Check if food triggers any allergy"""
+    if not allergies:
+        return False
+    
+    allergy_keywords = {
+        "dairy": ["yogurt", "cheese", "milk", "cottage"],
+        "nuts": ["almond", "walnut", "peanut", "cashew"],
+        "egg": ["egg"],
+        "gluten": ["bread", "wheat", "oat", "quinoa"],
+        "soy": ["tofu", "soy"],
+        "fish": ["salmon", "tuna", "fish"],
+        "shellfish": ["shrimp", "crab", "lobster"]
+    }
+    
+    food_lower = food_name.lower()
+    for allergy in allergies:
+        allergy = allergy.lower().strip()
+        if allergy in allergy_keywords:
+            for keyword in allergy_keywords[allergy]:
+                if keyword in food_lower:
+                    return True
+    return False
+
+
+def _suggest_meal(foods, meal_type, allergies):
+    """Suggest foods for a specific meal"""
+    meal_suggestions = []
+    for food in foods[:4]:
+        if not _is_allergic(food["name"], allergies):
+            meal_suggestions.append(food["name"])
+    return meal_suggestions
+
+
+def _get_nutrition_tips(goal, bmi_category, activity):
+    """Get nutrition tips based on user profile"""
+    tips = []
+    
+    if goal == "weight loss":
+        tips.append("🥗 Aim for 300-500 calorie deficit daily")
+        tips.append("💧 Drink 2-3 liters of water per day")
+        tips.append("🥬 Fill half your plate with vegetables")
+    
+    elif goal == "muscle gain":
+        tips.append("🍗 Consume 1.6-2.2g protein per kg body weight")
+        tips.append("🥔 Include complex carbs for energy")
+        tips.append("💪 Eat within 2 hours of workout")
+    
+    else:
+        tips.append("⚖️ Maintain balanced macronutrients")
+        tips.append("🥘 Include variety in your diet")
+        tips.append("📊 Track your portions")
+    
+    if bmi_category == "Underweight":
+        tips.append("📈 Increase calorie intake with healthy fats")
+        tips.append("🥜 Add nuts and seeds to meals")
+    
+    elif bmi_category in ["Overweight", "Obese"]:
+        tips.append("🚫 Reduce processed foods and sugars")
+        tips.append("🏃 Increase physical activity")
+    
+    if activity == "high":
+        tips.append("⚡ Increase carbohydrate intake for energy")
+        tips.append("💧 Stay extra hydrated")
+    
+    return tips
 def suggest_food(goal, category, activity, skin_disease=False, allergies=None):
     """Produce a list of foods based on the user's goal, BMI category, and
     activity level.  If an unknown activity string is received, the function
