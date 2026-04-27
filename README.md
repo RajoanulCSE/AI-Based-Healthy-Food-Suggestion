@@ -207,11 +207,8 @@ This project is licensed under the MIT License.
 
 ## 👤 Author
 
-- **Name**: Your Name
+- **Name**: Rajoanul Islam Shuvo
 - **GitHub**: [github.com/RajoanulCSE](https://github.com/RajoanulCSE)
 
 ---
 
-## ⭐ Show Your Support
-
-Give a ⭐️ if you found this project helpful!
