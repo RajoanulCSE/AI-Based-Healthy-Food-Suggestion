@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Healthy Food Suggestion System </title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landingPage" class="landing-page">
+
+
+        <div class="landing-container">
+            <div class="landing-header">
+                <h1>🍎 AI Healthy Food Suggestion System</h1>
+                <p class="landing-subtitle">Get personalized nutrition recommendations powered by artificial intelligence</p>
+            </div>
+
+            <div class="image-gallery">
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400" alt="Healthy Food Bowl">
+                    <div class="image-overlay">
+                        <h3>Balanced Nutrition</h3>
+                        <p>Scientifically designed meal plans</p>
+                    </div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400" alt="Fresh Vegetables">
+                    <div class="image-overlay">
+                        <h3>Fresh & Natural</h3>
+                        <p>Focus on whole foods and nutrients</p>
+                    </div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400" alt="Fitness and Health">
+                    <div class="image-overlay">
+                        <h3>Health Goals</h3>
+                        <p>Weight loss, muscle gain, or maintenance</p>
+                    </div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" alt="Personalized Diet">
+                    <div class="image-overlay">
+                        <h3>Personalized Plans</h3>
+                        <p>Tailored to your unique needs</p>
+                    </div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400" alt="Medical Consultation">
+                    <div class="image-overlay">
+                        <h3>Expert Guidance</h3>
+                        <p>Always consult healthcare professionals</p>
+                    </div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400" alt="Healthy Lifestyle">
+                    <div class="image-overlay">
+                        <h3>Healthy Lifestyle</h3>
+                        <p>Complete wellness approach</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="landing-features">
+                <div class="feature">
+                    <span class="feature-icon">🤖</span>
+                    <h4>AI-Powered</h4>
+                    <p>Advanced algorithms analyze your health data</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">⚕️</span>
+                    <h4>Medical Disclaimer</h4>
+                    <p>Professional consultation recommended</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🍽️</span>
+                    <h4>Meal Planning</h4>
+                    <p>Customized daily meal suggestions</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">📊</span>
+                    <h4>Health Tracking</h4>
+                    <p>BMI calculation and progress monitoring</p>
+                </div>
+            </div>
+
+            <div class="landing-actions">
+                <button onclick="showAuthPage()" class="get-started-btn">Get Started 🚀</button>
+                <p class="landing-note">Join thousands of users improving their health with AI-powered nutrition</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login/Registration Page -->
+    <div id="authPage" class="auth-page">
+        <div class="auth-container">
+            <div class="auth-toggle">
+                <button class="toggle-btn active" onclick="switchToLogin()">Login</button>
+                <button class="toggle-btn" onclick="switchToRegister()">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="serverError" class="error-msg" style="text-align:center;"></div>
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+               <h2>  Healthy Food<br>Suggestion System </h2><br>
+                <h2>Login 🚀</h2>
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+
+                <button type="submit" class="submit-btn">Login</button>
+                <p id="loginError" class="error-msg"></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <h2>  Healthy Food<br>Suggestion System </h2><br>
+                <h2>Create Account 🚀</h2>
+                <label for="regName">Full Name</label>
+                <input type="text" id="regName" placeholder="Enter your full name" required>
+
+                <label for="regEmail">Email</label>
+                <input type="email" id="regEmail" placeholder="Enter your email" required>
+
+                <label for="regPassword">Password</label>
+                <input type="password" id="regPassword" placeholder="Create a password (min 6 chars)" required>
+
+                <label for="regConfirm">Confirm Password</label>
+                <input type="password" id="regConfirm" placeholder="Confirm your password" required>
+
+                <button type="submit" class="submit-btn">Register</button>
+                <p id="registerError" class="error-msg"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main App Page -->
+    <div id="appPage" class="app-page" style="display: none;">
+        <div class="header">
+            <h1> AI Healthy Food Suggestion System</h1>
+            <div class="user-info">
+                <span id="userName">User</span>
+                <button onclick="handleLogout()" class="logout-btn">Logout</button>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <div class="nav-menu">
+            <button onclick="showFoodSuggestion()" class="nav-btn active" id="foodSuggestionBtn">🍽️ Food Suggestion</button>
+            <button onclick="showHealthTracking()" class="nav-btn" id="healthTrackingBtn">📊 Health Tracking</button>
+            <button onclick="showLifestyleTracking()" class="nav-btn" id="lifestyleTrackingBtn">📘 Lifestyle Guidelines</button>
+            <button onclick="showRecommendations()" class="nav-btn" id="recommendationsBtn">⏰ AI Recommendations</button>
+            <button onclick="showAIPilot()" class="nav-btn" id="aiPilotBtn">🗣️ AI Pilot</button>
+        </div>
+
+        <!-- Food Suggestion Page -->
+        <div id="foodSuggestionPage" class="page-content">
+            <p class="subtitle">Get personalized nutrition recommendations based on your health metrics</p>
+
+            <!-- Basic Health Metrics -->
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="age">👤 Age (years)</label>
+                    <input type="number" id="age" placeholder="Enter your age" min="0" required>
+                </div>
+
+                <div class="input-field">
+                    <label for="weight">⚖️ Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="Enter your weight" min="0" step="0.1" required>
+                </div>
+
+                <div class="input-field">
+                    <label for="height">📏 Height (cm)</label>
+                    <input type="number" id="height" placeholder="Enter your height" min="0" step="0.1" required>
+                </div>
+            </div>
+
+            <!-- Activity and Goal -->
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="activity">🏃 Activity Level</label>
+                    <select id="activity" required>
+                        <option value="">Select your activity level</option>
+                        <option value="low">Low Activity</option>
+                        <option value="medium">Medium Activity</option>
+                        <option value="high">High Activity</option>
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label for="goal">🎯 Health Goal</label>
+                    <select id="goal" required>
+                        <option value="">Select your goal</option>
+                        <option value="weight loss">Weight Loss</option>
+                        <option value="muscle gain">Muscle Gain</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
+                </div>
+
+                <div class="input-field">
+                    <label for="servings">🍽️ Meals Per Day</label>
+                    <input type="number" id="servings" placeholder="Number of meals" min="1" max="6" value="3" required>
+                </div>
+            </div>
+
+            <!-- Health Conditions -->
+            <div class="input-group">
+                <div class="input-field full-width-input">
+                    <label for="skinDisease">Health Conditions</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="skinDisease"> Skin disease (avoid dairy, fried foods, sugar)
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-field full-width-input">
+                    <label for="allergies">Food Allergies</label>
+                    <input type="text" id="allergies" placeholder="Enter allergens (e.g., nuts, dairy, gluten) - comma separated">
+                </div>
+            </div>
+
+            <button onclick="calculate()">Get Suggestion</button>
+
+            <!-- Disclaimer Section -->
+            <div class="disclaimer">
+                <h3>⚠️ Important Medical Disclaimer</h3>
+                <p><strong>This application provides general nutritional guidance only and is not a substitute for professional medical advice.</strong></p>
+                <ul>
+                    <li>Always consult with a qualified MBBS doctor or registered dietitian before making significant changes to your diet.</li>
+                    <li>Regular health check-ups are essential to monitor your body's response to dietary changes.</li>
+                    <li>Individual nutritional needs vary based on age, gender, medical conditions, and lifestyle factors.</li>
+                    <li>If you have any medical conditions, allergies, or are taking medications, seek professional medical advice.</li>
+                    <li>The suggested foods are general recommendations and may not be suitable for everyone.</li>
+                </ul>
+                <p><em>Remember: Your health is important. Professional medical consultation is always recommended.</em></p>
+            </div>
+
+            <div id="result"></div>
+        </div>
+
+        <!-- Health Tracking Page -->
+        <div id="healthTrackingPage" class="page-content" style="display: none;">
+            <div class="container">
+                <h2>📊 AI Personalized Health Tracking</h2>
+                <p class="subtitle">Track your health progress over time with AI-powered insights and visualizations</p>
+
+                <div class="tracking-controls">
+                    <button onclick="saveCurrentHealthData()" class="save-data-btn">💾 Save Today's Data</button>
+                    <button onclick="loadHealthHistory()" class="load-data-btn">📈 View Progress</button>
+                </div>
+
+                <div id="trackingMessage"></div>
+
+                <!-- Charts Container -->
+                <div id="chartsContainer" style="display: none;">
+                    <div class="chart-section">
+                        <h3>📏 Weight Progress</h3>
+                        <canvas id="weightChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="chart-section">
+                        <h3>⚖️ BMI Trend</h3>
+                        <canvas id="bmiChart" width="400" height="200"></canvas>
+                    </div>
+
+                    <div class="insights-section">
+                        <h3>🤖 AI Health Insights</h3>
+                        <div id="aiInsights" class="insights-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lifestyle Guidelines Page -->
+        <div id="lifestyleTrackingPage" class="page-content" style="display: none;">
+            <div class="container">
+                <h2>🏃 Lifestyle Guidelines</h2>
+                <p class="subtitle">Helpful recommendations for meal timing, sleep schedule, and exercise.</p>
+
+                <div class="lifestyle-section">
+                    <h3>🍽️ Eating Times</h3>
+                    <p>• Breakfast: 7:00 AM – 9:00 AM<br>
+                       • Lunch: 12:00 PM – 2:00 PM<br>
+                       • Dinner: 7:00 PM – 9:00 PM<br>
+                       Eat at regular intervals and avoid heavy meals late at night.</p>
+                </div>
+
+                <div class="lifestyle-section">
+                    <h3>😴 Sleep Schedule</h3>
+                    <p>• Aim for 7–8 hours nightly.<br>
+                       • Bedtime: 10:00 PM – 11:00 PM<br>
+                       • Wake up: 6:00 AM – 7:00 AM<br>
+                       Maintain a consistent sleep cycle for better recovery.</p>
+                </div>
+
+                <div class="lifestyle-section">
+                    <h3>💪 Exercise Timing</h3>
+                    <p>• Morning workouts (5:30 AM – 7:00 AM) boost metabolism.<br>
+                       • Evening workouts (5:00 PM – 7:00 PM) suit strength sessions.<br>
+                       • Aim for 30–60 minutes most days, mixing cardio and strength.</p>
+                </div>
+            </div>
+        </div>
+            <!-- Recommendations Page -->
+            
+            <!-- AI Pilot Page -->
+            <div id="aiPilotPage" class="page-content" style="display: none;">
+                <p class="subtitle">💬 Chat with your health assistant</p>
+                <div id="chatContainer" class="chat-container">
+                    <!-- messages inserted here -->
+                </div>
+                <div class="chat-controls">
+                    <input type="text" id="chatInput" placeholder="Type your message...">
+                    <button onclick="sendChatMessage()" class="save-data-btn">Send</button>
+                </div>
+                <div id="chatMessage" class="message"></div>
+            </div>
+            <div id="recommendationsPage" class="page-content" style="display: none;">
+                <p class="subtitle">📅 Your Personalized Daily Schedule & AI Recommendations</p>
+                
+                <div id="recommendationsContainer">
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                        <button onclick="loadRecommendations()" class="save-data-btn" style="flex: 1;">🔄 Generate Recommendations</button>
+                        <button onclick="downloadRecommendationsPDF()" class="save-data-btn" style="flex: 1;">📥 Download as PDF</button>
+                    </div>
+                    
+                    <div id="recommendationsContent" style="display: none;">
+                        <!-- Daily Routine Summary -->
+                        <div class="recommendation-card">
+                            <h2>📅 Your Ideal Daily Routine</h2>
+                            <div id="dailyRoutineContent" class="routine-grid"></div>
+                        </div>
+
+                        <!-- Sleep Recommendations -->
+                        <div class="recommendation-card">
+                            <h2>🛏️ Sleep Schedule</h2>
+                            <div id="sleepContent" class="rec-content"></div>
+                        </div>
+
+                        <!-- Meal Recommendations -->
+                        <div class="recommendation-card">
+                            <h2>🍽️ Meal Schedule & Suggested Foods</h2>
+                            <div id="mealContent" class="rec-content"></div>
+                        </div>
+
+                        <!-- Exercise Recommendations -->
+                        <div class="recommendation-card">
+                            <h2>💪 Exercise Plan</h2>
+                            <div id="exerciseContent" class="rec-content"></div>
+                        </div>
+
+                        <!-- Tips -->
+                        <div class="recommendation-card tips-card">
+                            <h2>💡 Personalized Tips for Your Goal</h2>
+                            <div id="tipsContent" class="tips-list"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recommendationsMessage" class="message"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// ==================== Authentication System ====================
+
+// attempt to contact backend; returns true on success
+async function checkBackend() {
+    try {
+        const r = await fetch('/', { method: 'HEAD' });
+        return r.ok;
+    } catch (e) {
+        return false;
+    }
+}
+
+// Initialize app - check backend availability and user session
+async function initializeApp() {
+    if (window.location.protocol === 'file:') {
+        alert('Please open this page in a browser (http://localhost:5000 or your WiFi IP) and make sure the backend server is running');
+    }
+
+    const backendReady = await checkBackend();
+    const banner = document.getElementById('serverError');
+    if (!backendReady) {
+        if (banner) {
+            banner.textContent = '⚠️ Cannot reach backend. Make sure server is running';
+        }
+        alert('Cannot reach backend. Start the server: python app.py in the backend folder');
+    } else {
+        if (banner) {
+            banner.textContent = '';
+        }
+    }
+
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+        const user = JSON.parse(currentUser);
+        document.getElementById('userName').textContent = user.name || 'User';
+        showApp();
+    } else {
+        showLandingPage();
+    }
+
+    // attach chat input enter key listener (if present)
+    const chatInput = document.getElementById('chatInput');
+    if (chatInput) {
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+                e.preventDefault();
+            }
+        });
+    }
+}
+
+function switchToLogin() {
+    document.getElementById('loginForm').classList.add('active');
+    document.getElementById('registerForm').classList.remove('active');
+    document.querySelectorAll('.toggle-btn')[0].classList.add('active');
+    document.querySelectorAll('.toggle-btn')[1].classList.remove('active');
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('registerError').textContent = '';
+}
+
+function switchToRegister() {
+    document.getElementById('registerForm').classList.add('active');
+    document.getElementById('loginForm').classList.remove('active');
+    document.querySelectorAll('.toggle-btn')[1].classList.add('active');
+    document.querySelectorAll('.toggle-btn')[0].classList.remove('active');
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('registerError').textContent = '';
+}
+
+async function handleRegister(event) {
+    event.preventDefault();
+    const errorMsg = document.getElementById('registerError');
+    // warn if page opened from file system
+    if (window.location.protocol === 'file:') {
+        errorMsg.textContent = '❌ Page must be opened in browser (not file://) with backend running';
+        return;
+    }
+    // if backendError banner visible, bail
+    if (document.getElementById('serverError').textContent) {
+        errorMsg.textContent = '❌ Cannot register, backend unreachable';
+        return;
+    }
+    console.log('register submit');
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const confirm = document.getElementById('regConfirm').value;
+
+    errorMsg.textContent = '';
+    errorMsg.style.color = '#FF6B6B';
+
+    if (password.length < 6) {
+        errorMsg.textContent = '❌ Password must be at least 6 characters';
+        return;
+    }
+    if (password !== confirm) {
+        errorMsg.textContent = '❌ Passwords do not match';
+        return;
+    }
+
+    // call backend
+    try {
+        const resp = await fetch('/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+            errorMsg.textContent = `❌ ${data.error || 'Registration failed'}`;
+            return;
+        }
+        // success
+        errorMsg.style.color = '#4ECDC4';
+        errorMsg.textContent = '✅ Registered! Logging in...';
+        localStorage.setItem('currentUser', JSON.stringify({ name: data.name, email: data.email }));
+        document.getElementById('userName').textContent = data.name;
+        setTimeout(showApp, 800);
+    } catch (err) {
+        errorMsg.textContent = `❌ Network error: ${err.message}`;
+    }
+}
+
+async function handleLogin(event) {
+    event.preventDefault();
+    const errorMsg = document.getElementById('loginError');
+    if (window.location.protocol === 'file:') {
+        errorMsg.textContent = '❌ Page must be opened in browser (not file://) with backend running';
+        return;
+    }
+    if (document.getElementById('serverError').textContent) {
+        errorMsg.textContent = '❌ Cannot login, backend unreachable';
+        return;
+    }
+    console.log('login submit');
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    errorMsg.textContent = '';
+    errorMsg.style.color = '#FF6B6B';
+
+    try {
+        const resp = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await resp.json();
+        if (!resp.ok) {
+            errorMsg.textContent = `❌ ${data.error || 'Login failed'}`;
+            return;
+        }
+        localStorage.setItem('currentUser', JSON.stringify({ name: data.name, email: data.email }));
+        document.getElementById('userName').textContent = data.name;
+        showApp();
+    } catch (err) {
+        errorMsg.textContent = `❌ Network error: ${err.message}`;
+    }
+}
+
+function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+        localStorage.removeItem('currentUser');
+        document.getElementById('authPage').style.display = 'flex';
+        document.getElementById('appPage').style.display = 'none';
+        document.getElementById('loginForm').reset();
+        document.getElementById('registerForm').reset();
+        switchToLogin();
+    }
+}
+
+function showLandingPage() {
+    document.getElementById('landingPage').style.display = 'block';
+    document.getElementById('authPage').style.display = 'none';
+    document.getElementById('appPage').style.display = 'none';
+}
+
+function showAuthPage() {
+    document.getElementById('landingPage').style.display = 'none';
+    document.getElementById('authPage').style.display = 'flex';
+    document.getElementById('appPage').style.display = 'none';
+}
+
+function showApp() {
+    document.getElementById('landingPage').style.display = 'none';
+    document.getElementById('authPage').style.display = 'none';
+    document.getElementById('appPage').style.display = 'block';
+    showFoodSuggestion(); // Show food suggestion by default
+}
+
+// ==================== Navigation Functions ====================
+
+function showFoodSuggestion() {
+    document.getElementById('foodSuggestionPage').style.display = 'block';
+    document.getElementById('healthTrackingPage').style.display = 'none';
+    document.getElementById('lifestyleTrackingPage').style.display = 'none';
+    document.getElementById('recommendationsPage').style.display = 'none';
+    document.getElementById('foodSuggestionBtn').classList.add('active');
+    document.getElementById('healthTrackingBtn').classList.remove('active');
+    document.getElementById('lifestyleTrackingBtn').classList.remove('active');
+    document.getElementById('recommendationsBtn').classList.remove('active');
+}
+
+function showHealthTracking() {
+    document.getElementById('foodSuggestionPage').style.display = 'none';
+    document.getElementById('healthTrackingPage').style.display = 'block';
+    document.getElementById('lifestyleTrackingPage').style.display = 'none';
+    document.getElementById('recommendationsPage').style.display = 'none';
+    document.getElementById('foodSuggestionBtn').classList.remove('active');
+    document.getElementById('healthTrackingBtn').classList.add('active');
+    document.getElementById('lifestyleTrackingBtn').classList.remove('active');
+    document.getElementById('recommendationsBtn').classList.remove('active');
+}
+
+function showLifestyleTracking() {
+    document.getElementById('foodSuggestionPage').style.display = 'none';
+    document.getElementById('healthTrackingPage').style.display = 'none';
+    document.getElementById('lifestyleTrackingPage').style.display = 'block';
+    document.getElementById('recommendationsPage').style.display = 'none';
+    document.getElementById('foodSuggestionBtn').classList.remove('active');
+    document.getElementById('healthTrackingBtn').classList.remove('active');
+    document.getElementById('lifestyleTrackingBtn').classList.add('active');
+    document.getElementById('recommendationsBtn').classList.remove('active');
+}
+
+function showRecommendations() {
+    document.getElementById('foodSuggestionPage').style.display = 'none';
+    document.getElementById('healthTrackingPage').style.display = 'none';
+    document.getElementById('lifestyleTrackingPage').style.display = 'none';
+    document.getElementById('recommendationsPage').style.display = 'block';
+    document.getElementById('foodSuggestionBtn').classList.remove('active');
+    document.getElementById('healthTrackingBtn').classList.remove('active');
+    document.getElementById('lifestyleTrackingBtn').classList.remove('active');
+    document.getElementById('recommendationsBtn').classList.add('active');
+}
+
+function showAIPilot() {
+    document.getElementById('foodSuggestionPage').style.display = 'none';
+    document.getElementById('healthTrackingPage').style.display = 'none';
+    document.getElementById('lifestyleTrackingPage').style.display = 'none';
+    document.getElementById('recommendationsPage').style.display = 'none';
+    document.getElementById('aiPilotPage').style.display = 'block';
+    document.getElementById('foodSuggestionBtn').classList.remove('active');
+    document.getElementById('healthTrackingBtn').classList.remove('active');
+    document.getElementById('lifestyleTrackingBtn').classList.remove('active');
+    document.getElementById('recommendationsBtn').classList.remove('active');
+    document.getElementById('aiPilotBtn').classList.add('active');
+    // clear previous chat messages
+    document.getElementById('chatContainer').innerHTML = '';
+    const inputEl = document.getElementById('chatInput');
+    inputEl.value = '';
+    inputEl.focus();
+    document.getElementById('chatMessage').textContent = '';
+}
+
+// ==================== Health Tracking Functions ====================
+
+async function saveCurrentHealthData() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please login first');
+        return;
+    }
+
+    const age = document.getElementById("age").value;
+    const weight = document.getElementById("weight").value;
+    const height = document.getElementById("height").value;
+    const activity = document.getElementById("activity").value;
+    const goal = document.getElementById("goal").value;
+    const skinDisease = document.getElementById("skinDisease").checked;
+    const allergies = document.getElementById("allergies").value.toLowerCase().split(',').map(a => a.trim()).filter(a => a);
+
+    if (!weight || !height || !activity || !goal) {
+        document.getElementById("trackingMessage").innerHTML = "<p style='color:red;'>Please fill in weight, height, activity level, and goal first.</p>";
+        return;
+    }
+
+    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+
+    try {
+        const response = await fetch('/save_health_data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: currentUser.email,
+                date: today,
+                weight: parseFloat(weight),
+                height: parseFloat(height),
+                activity: activity,
+                goal: goal,
+                skin_disease: skinDisease,
+                allergies: allergies,
+                foods_suggested: [] // Will be populated when calculating suggestions
+            })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            document.getElementById("trackingMessage").innerHTML = "<p style='color:green;'>✅ Health data saved successfully!</p>";
+        } else {
+            document.getElementById("trackingMessage").innerHTML = `<p style='color:red;'>❌ Error: ${data.error}</p>`;
+        }
+    } catch (error) {
+        document.getElementById("trackingMessage").innerHTML = `<p style='color:red;'>❌ Network error: ${error.message}</p>`;
+    }
+}
+
+async function loadHealthHistory() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please login first');
+        return;
+    }
+
+    try {
+        const response = await fetch(`/get_health_history?email=${encodeURIComponent(currentUser.email)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            if (data.health_history.length === 0) {
+                document.getElementById("trackingMessage").innerHTML = "<p style='color:orange;'>📝 No health data found. Start tracking by saving your data first!</p>";
+                document.getElementById("chartsContainer").style.display = 'none';
+                return;
+            }
+
+            displayHealthCharts(data.health_history);
+            loadAIInsights();
+            document.getElementById("chartsContainer").style.display = 'block';
+            document.getElementById("trackingMessage").innerHTML = "<p style='color:green;'>📊 Health history loaded successfully!</p>";
+        } else {
+            document.getElementById("trackingMessage").innerHTML = `<p style='color:red;'>❌ Error: ${data.error}</p>`;
+        }
+    } catch (error) {
+        document.getElementById("trackingMessage").innerHTML = `<p style='color:red;'>❌ Network error: ${error.message}</p>`;
+    }
+}
+
+function displayHealthCharts(healthHistory) {
+    // Prepare data for charts
+    const dates = healthHistory.map(h => new Date(h.date).toLocaleDateString());
+    const weights = healthHistory.map(h => h.weight);
+    const bmis = healthHistory.map(h => h.bmi);
+
+    // Weight Chart
+    const weightCtx = document.getElementById('weightChart').getContext('2d');
+    new Chart(weightCtx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Weight (kg)',
+                data: weights,
+                borderColor: '#FF6B6B',
+                backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Weight Progress Over Time'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+
+    // BMI Chart
+    const bmiCtx = document.getElementById('bmiChart').getContext('2d');
+    new Chart(bmiCtx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'BMI',
+                data: bmis,
+                borderColor: '#4ECDC4',
+                backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'BMI Trend Over Time'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+}
+
+async function loadAIInsights() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return;
+
+    try {
+        const response = await fetch(`/get_health_insights?email=${encodeURIComponent(currentUser.email)}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            const insightsHtml = data.insights.map(insight =>
+                `<div class="insight-item">💡 ${insight}</div>`
+            ).join('');
+            document.getElementById("aiInsights").innerHTML = insightsHtml || "<p>No insights available yet. Keep tracking your health!</p>";
+        }
+    } catch (error) {
+        document.getElementById("aiInsights").innerHTML = `<p style='color:red;'>Error loading insights: ${error.message}</p>`;
+    }
+}
+
+
+const foodDatabase = {
+    "Grilled chicken / fish": {
+        image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300",
+        quantity: "150g",
+        calories: "250 cal",
+        protein: "35g"
+    },
+    "Green vegetables": {
+        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300",
+        quantity: "200g",
+        calories: "50 cal",
+        protein: "3g"
+    },
+    "Oats / Brown rice": {
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300",
+        quantity: "150g (cooked)",
+        calories: "200 cal",
+        protein: "7g"
+    },
+    "Fruits (apple, papaya)": {
+        image: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=300",
+        quantity: "1 medium fruit",
+        calories: "80 cal",
+        protein: "1g"
+    },
+    "Low-fat yogurt": {
+        image: "https://images.unsplash.com/photo-1488477304112-4944851de03d?w=300",
+        quantity: "200g",
+        calories: "120 cal",
+        protein: "15g"
+    },
+    "Eggs": {
+        image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300",
+        quantity: "2 eggs",
+        calories: "140 cal",
+        protein: "12g"
+    },
+    "Chicken breast": {
+        image: "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=300",
+        quantity: "200g",
+        calories: "330 cal",
+        protein: "62g"
+    },
+    "Rice / Sweet potatoes": {
+        image: "https://images.unsplash.com/photo-1576097449798-7c7f90be01c8?w=300",
+        quantity: "200g (cooked)",
+        calories: "180 cal",
+        protein: "4g"
+    },
+    "Milk / Protein shake": {
+        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300",
+        quantity: "250ml",
+        calories: "150 cal",
+        protein: "8g"
+    },
+    "Peanut butter": {
+        image: "https://images.unsplash.com/photo-1599599810694-b5ac4dd8b7b9?w=300",
+        quantity: "2 tbsp (32g)",
+        calories: "190 cal",
+        protein: "8g"
+    },
+    "Balanced diet": {
+        image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300",
+        quantity: "Varied portions",
+        calories: "2000 cal/day",
+        protein: "50g"
+    },
+    "Vegetables + Protein": {
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300",
+        quantity: "Mixed portions",
+        calories: "400 cal",
+        protein: "30g"
+    },
+    "Whole grains": {
+        image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=300",
+        quantity: "150g (cooked)",
+        calories: "200 cal",
+        protein: "7g"
+    },
+    "Fruits": {
+        image: "https://images.unsplash.com/photo-1619566636858-8d1b5b7f69b3?w=300",
+        quantity: "2 pieces",
+        calories: "160 cal",
+        protein: "2g"
+    },
+    "Adequate water": {
+        image: "https://images.unsplash.com/photo-1559839914-17aae19cec71?w=300",
+        quantity: "2-3 liters/day",
+        calories: "0 cal",
+        protein: "0g"
+    },
+    "Increase calorie intake (nuts, dates, milk)": {
+        image: "https://images.unsplash.com/photo-1599599810694-b5ac4dd8b7b9?w=300",
+        quantity: "Mixed snacks",
+        calories: "300-400 cal",
+        protein: "10g"
+    },
+    "Reduce sugar & fried foods": {
+        image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300",
+        quantity: "Minimize portions",
+        calories: "Avoid excess",
+        protein: "Varies"
+    },
+    "Increase protein & hydration": {
+        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300",
+        quantity: "Increased intake",
+        calories: "Extra 300 cal",
+        protein: "40g+"
+    },
+    "Control calorie intake": {
+        image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300",
+        quantity: "Controlled portions",
+        calories: "1800-2000 cal",
+        protein: "50g"
+    }
+};
+
+// All logic runs in the browser - no backend server needed
+
+function calculateBMI(weight, height) {
+    const heightM = height / 100;
+    return Math.round((weight / (heightM * heightM)) * 100) / 100;
+}
+
+function getBMICategory(bmi) {
+    if (bmi < 18.5) return "Underweight";
+    if (bmi < 25) return "Normal weight";
+    if (bmi < 30) return "Overweight";
+    return "Obese";
+}
+
+function suggestFood(goal, category, activity, skinDisease, allergies) {
+    const suggestions = [];
+
+    if (goal === "weight loss") {
+        suggestions.push(
+            "Grilled chicken / fish",
+            "Green vegetables",
+            "Oats / Brown rice",
+            "Fruits (apple, papaya)",
+            "Low-fat yogurt"
+        );
+    } else if (goal === "muscle gain") {
+        suggestions.push(
+            "Eggs",
+            "Chicken breast",
+            "Rice / Sweet potatoes",
+            "Milk / Protein shake",
+            "Peanut butter"
+        );
+    } else if (goal === "maintenance") {
+        suggestions.push(
+            "Balanced diet",
+            "Vegetables + Protein",
+            "Whole grains",
+            "Fruits",
+            "Adequate water"
+        );
+    }
+
+    // BMI adjustment
+    const categoryLower = category.toLowerCase();
+    if (categoryLower === "underweight") {
+        suggestions.push("Increase calorie intake (nuts, dates, milk)");
+    } else if (categoryLower === "overweight" || categoryLower === "obese") {
+        suggestions.push("Reduce sugar & fried foods");
+    }
+
+    // Activity adjustment
+    if (activity === "high") {
+        suggestions.push("Increase protein & hydration");
+    } else if (activity === "low") {
+        suggestions.push("Control calorie intake");
+    }
+
+    // Filter out foods based on skin disease
+    let filteredSuggestions = suggestions;
+    if (skinDisease) {
+        const skinDiseaseAvoid = ["Low-fat yogurt", "Milk / Protein shake", "Peanut butter", "Reduce sugar & fried foods"];
+        filteredSuggestions = suggestions.filter(food => !skinDiseaseAvoid.includes(food));
+    }
+
+    // Filter out foods based on allergies
+    if (allergies.length > 0) {
+        const allergyFilters = {
+            "dairy": ["Low-fat yogurt", "Milk / Protein shake", "Increase calorie intake (nuts, dates, milk)"],
+            "nuts": ["Peanut butter", "Increase calorie intake (nuts, dates, milk)"],
+            "peanut": ["Peanut butter", "Increase calorie intake (nuts, dates, milk)"],
+            "milk": ["Low-fat yogurt", "Milk / Protein shake", "Increase calorie intake (nuts, dates, milk)"],
+            "egg": ["Eggs"],
+            "eggs": ["Eggs"],
+            "chicken": ["Grilled chicken / fish", "Chicken breast"],
+            "fish": ["Grilled chicken / fish"],
+            "gluten": ["Oats / Brown rice", "Whole grains", "Rice / Sweet potatoes"],
+            "wheat": ["Oats / Brown rice", "Whole grains"]
+        };
+
+        filteredSuggestions = filteredSuggestions.filter(food => {
+            return !allergies.some(allergy => {
+                const avoidFoods = allergyFilters[allergy] || [];
+                return avoidFoods.includes(food);
+            });
+        });
+    }
+
+    return filteredSuggestions;
+}
+
+function calculate() {
+    const age = document.getElementById("age").value;
+    const weight = document.getElementById("weight").value;
+    const height = document.getElementById("height").value;
+    const activity = document.getElementById("activity").value;
+    const goal = document.getElementById("goal").value;
+    const servings = document.getElementById("servings").value;
+    const skinDisease = document.getElementById("skinDisease").checked;
+    const allergies = document.getElementById("allergies").value.toLowerCase().split(',').map(a => a.trim()).filter(a => a);
+
+    // Validation
+    if (!age || !weight || !height || !activity || !goal) {
+        document.getElementById("result").innerHTML =
+            "<p style='color:red;'>Please fill in all fields.</p>";
+        return;
+    }
+
+    const w = parseFloat(weight);
+    const h = parseFloat(height);
+    const numServings = parseInt(servings);
+
+    if (w <= 0 || h <= 0) {
+        document.getElementById("result").innerHTML =
+            "<p style='color:red;'>Weight and height must be positive numbers.</p>";
+        return;
+    }
+
+    // Calculate
+    const bmi = calculateBMI(w, h);
+    const category = getBMICategory(bmi);
+    const foods = suggestFood(goal, category, activity, skinDisease, allergies);
+
+    // Display result
+    let output = `
+        <h3>📊 Your Health Profile</h3>
+        <p><strong>BMI:</strong> ${bmi}</p>
+        <p><strong>Category:</strong> ${category}</p>
+        <p><strong>Daily Meals:</strong> ${numServings}</p>
+        ${skinDisease ? "<p><strong>Health Condition:</strong> Skin disease (dairy, fried foods, sugar avoided)</p>" : ""}
+        ${allergies.length > 0 ? `<p><strong>Allergies:</strong> ${allergies.join(', ')}</p>` : ""}
+        <h3>🍽️ Recommended Foods</h3>
+        <div class="food-grid">
+    `;
+
+    foods.forEach((food) => {
+        const foodInfo = foodDatabase[food] || {
+            image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300",
+            quantity: "1 serving",
+            calories: "Varies",
+            protein: "Varies"
+        };
+        
+        output += `
+            <div class="food-card">
+                <img src="${foodInfo.image}" alt="${food}" class="food-image">
+                <h4>${food}</h4>
+                <p class="food-detail"><strong>Per Serving:</strong> ${foodInfo.quantity}</p>
+                <p class="food-detail"><strong>Daily Amount:</strong> ${numServings} × ${foodInfo.quantity}</p>
+                <p class="food-detail"><strong>Calories:</strong> ${foodInfo.calories}</p>
+                <p class="food-detail"><strong>Protein:</strong> ${foodInfo.protein}</p>
+            </div>
+        `;
+    });
+
+    output += `</div>`;
+
+    document.getElementById("result").innerHTML = output;
+
+    // Add image error handling after rendering
+    setTimeout(() => {
+        addImageErrorHandling();
+    }, 100);
+
+    // Save health data with suggested foods
+    saveHealthDataWithFoods(foods);
+}
+
+// Function to handle image loading errors and provide fallbacks
+function addImageErrorHandling() {
+    const foodImages = document.querySelectorAll('.food-image');
+
+    foodImages.forEach(img => {
+        img.addEventListener('error', function() {
+            // Fallback images based on food type
+            const foodName = this.alt.toLowerCase();
+
+            let fallbackImage = 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300'; // Default healthy food image
+
+            if (foodName.includes('chicken') || foodName.includes('fish') || foodName.includes('meat')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300';
+            } else if (foodName.includes('vegetable') || foodName.includes('green')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300';
+            } else if (foodName.includes('fruit')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=300';
+            } else if (foodName.includes('yogurt') || foodName.includes('dairy')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1488477304112-4944851de03d?w=300';
+            } else if (foodName.includes('egg')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300';
+            } else if (foodName.includes('rice') || foodName.includes('grain')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=300';
+            } else if (foodName.includes('water') || foodName.includes('drink')) {
+                fallbackImage = 'https://images.unsplash.com/photo-1559839914-17aae19cec71?w=300';
+            }
+
+            this.src = fallbackImage;
+
+            // Prevent infinite loop if fallback also fails
+            this.onerror = function() {
+                this.src = 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=300';
+                this.onerror = null; // Remove error handler to prevent further calls
+            };
+        });
+
+        // Add loading animation
+        img.style.opacity = '0';
+        img.onload = function() {
+            this.style.transition = 'opacity 0.3s ease';
+            this.style.opacity = '1';
+        };
+    });
+}
+
+async function saveHealthDataWithFoods(foods) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) return; // Don't save if not logged in
+
+    const weight = document.getElementById("weight").value;
+    const height = document.getElementById("height").value;
+    const activity = document.getElementById("activity").value;
+    const goal = document.getElementById("goal").value;
+    const skinDisease = document.getElementById("skinDisease").checked;
+    const allergies = document.getElementById("allergies").value.toLowerCase().split(',').map(a => a.trim()).filter(a => a);
+
+    const today = new Date().toISOString().split('T')[0];
+
+    try {
+        await fetch('/save_health_data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: currentUser.email,
+                date: today,
+                weight: parseFloat(weight),
+                height: parseFloat(height),
+                activity: activity,
+                goal: goal,
+                skin_disease: skinDisease,
+                allergies: allergies,
+                foods_suggested: foods
+            })
+        });
+        // Silently save - no need to show message for auto-save
+    } catch (error) {
+        console.log('Auto-save failed:', error);
+    }
+}
+
+// ==================== Personalized Recommendations Functions ====================
+
+async function loadRecommendations() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please login first');
+        return;
+    }
+
+    const messageDiv = document.getElementById('recommendationsMessage');
+    messageDiv.textContent = 'Loading your personalized recommendations...';
+    messageDiv.style.display = 'block';
+
+    try {
+        const response = await fetch(`/get_personalized_recommendations?email=${currentUser.email}`);
+        const data = await response.json();
+
+        if (data.error) {
+            messageDiv.innerHTML = `❌ ${data.error}. Please update your health data first.`;
+            return;
+        }
+
+        const recommendations = data.recommendations;
+        displayRecommendations(recommendations);
+        messageDiv.style.display = 'none';
+    } catch (error) {
+        messageDiv.textContent = `❌ Error loading recommendations: ${error.message}`;
+    }
+}
+
+function displayRecommendations(recommendations) {
+    // Display Daily Routine
+    const dailyRoutineContent = document.getElementById('dailyRoutineContent');
+    const routine = recommendations.daily_routine;
+    dailyRoutineContent.innerHTML = `
+        <div class="routine-item">
+            <span class="routine-label">⏰ Wake Up</span>
+            <span class="routine-value">${routine.wake_up}</span>
+        </div>
+        <div class="routine-item">
+            <span class="routine-label">🍳 Breakfast</span>
+            <span class="routine-value">${routine.breakfast}</span>
+        </div>
+        <div class="routine-item">
+            <span class="routine-label">🥗 Lunch</span>
+            <span class="routine-value">${routine.lunch}</span>
+        </div>
+        <div class="routine-item">
+            <span class="routine-label">💪 Exercise</span>
+            <span class="routine-value">${routine.exercise}</span>
+        </div>
+        <div class="routine-item">
+            <span class="routine-label">🍽️ Dinner</span>
+            <span class="routine-value">${routine.dinner}</span>
+        </div>
+        <div class="routine-item">
+            <span class="routine-label">🛌 Bedtime</span>
+            <span class="routine-value">${routine.bedtime}</span>
+        </div>
+        <div class="routine-item">
+            <span class="routine-label">💧 Water Daily</span>
+            <span class="routine-value">${routine.water_intake}</span>
+        </div>
+    `;
+
+    // Display Sleep Recommendations
+    const sleepContent = document.getElementById('sleepContent');
+    const sleep = recommendations.sleep;
+    sleepContent.innerHTML = `
+        <div class="rec-item">
+            <p><strong>${sleep.recommendation}</strong></p>
+            <p>🌙 <strong>Optimal Bedtime:</strong> ${sleep.optimal_bedtime}</p>
+            <p>⏰ <strong>Optimal Wake Time:</strong> ${sleep.optimal_wake_time}</p>
+        </div>
+    `;
+
+    // Display Meal Recommendations
+    const mealContent = document.getElementById('mealContent');
+    const meals = recommendations.meals;
+    mealContent.innerHTML = `
+        <div class="meal-row">
+            <div class="meal-item">
+                <h4>🍳 Breakfast</h4>
+                <p><strong>Time:</strong> ${meals.breakfast.time}</p>
+                <p><strong>Foods:</strong> ${meals.breakfast.foods.join(', ')}</p>
+                <p><strong>Tip:</strong> ${meals.breakfast.portion}</p>
+            </div>
+            <div class="meal-item">
+                <h4>🥗 Lunch</h4>
+                <p><strong>Time:</strong> ${meals.lunch.time}</p>
+                <p><strong>Foods:</strong> ${meals.lunch.foods.join(', ')}</p>
+                <p><strong>Tip:</strong> ${meals.lunch.portion}</p>
+            </div>
+            <div class="meal-item">
+                <h4>🍽️ Dinner</h4>
+                <p><strong>Time:</strong> ${meals.dinner.time}</p>
+                <p><strong>Foods:</strong> ${meals.dinner.foods.join(', ')}</p>
+                <p><strong>Tip:</strong> ${meals.dinner.portion}</p>
+            </div>
+        </div>
+        <div class="rec-item">
+            <p><strong>${meals.general_advice}</strong></p>
+            <p><strong>${meals.water_intake}</strong></p>
+        </div>
+    `;
+
+    // Display Exercise Recommendations
+    const exerciseContent = document.getElementById('exerciseContent');
+    const exercise = recommendations.exercise;
+    exerciseContent.innerHTML = `
+        <div class="rec-item">
+            <p><strong>${exercise.focus}</strong></p>
+            <p>📅 <strong>Frequency:</strong> ${exercise.frequency}</p>
+            <p>⏱️ <strong>Duration per Session:</strong> ${exercise.duration_per_session}</p>
+            <p>🕐 <strong>Recommended Time:</strong> ${exercise.recommended_time}</p>
+            <p>💪 <strong>Exercise Type:</strong> ${exercise.exercise_type}</p>
+            <p>🔄 <strong>Recovery:</strong> ${exercise.recovery}</p>
+        </div>
+    `;
+
+    // Display Tips
+    const tipsContent = document.getElementById('tipsContent');
+    let tipsHTML = '';
+    recommendations.tips.forEach(tip => {
+        tipsHTML += `<div class="tip-item"><p>${tip}</p></div>`;
+    });
+    tipsContent.innerHTML = tipsHTML;
+
+    // Show recommendations content
+    document.getElementById('recommendationsContent').style.display = 'block';
+}
+
+
+// ==================== AI Pilot Chat Functions ====================
+
+function appendChatMessage(text, sender) {
+    const container = document.getElementById('chatContainer');
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('chat-message', sender);
+    msgDiv.textContent = text;
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+}
+
+async function sendChatMessage() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please login to chat');
+        return;
+    }
+
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    if (!message) return;
+
+    appendChatMessage(message, 'user');
+    input.value = '';
+
+    try {
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: currentUser.email, message })
+        });
+        const data = await response.json();
+        if (response.ok && data.reply) {
+            appendChatMessage(data.reply, 'bot');
+        } else {
+            appendChatMessage('🤖 Sorry, I could not process your request.', 'bot');
+        }
+    } catch (err) {
+        appendChatMessage(`Error: ${err.message}`, 'bot');
+    }
+}
+
+// allow enter key to submit chat
+const chatInputElem = document.getElementById('chatInput');
+if (chatInputElem) {
+    chatInputElem.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendChatMessage();
+            e.preventDefault();
+        }
+    });
+}
+
+// Initialize app when page loads
+window.addEventListener('load', initializeApp);
+</script>
+
+</body>
+</html>
