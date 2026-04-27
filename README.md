@@ -31,6 +31,8 @@ This project includes:
 - 💤 **Lifestyle Tracking** - Monitor sleep, exercise, and daily habits
 - 📄 **PDF Reports** - Download personalized health recommendations
 - 💬 **AI Chat** - Get answers to health-related questions
+- 🍽️ **Food Database API** - 40+ foods with nutritional info (calories, protein, carbs, fat)
+- 🥗 **Meal Planning** - Get breakfast, lunch, dinner suggestions
 
 ### Backend API Endpoints
 | Endpoint | Method | Description |
@@ -46,6 +48,9 @@ This project includes:
 | `/get_lifestyle_data` | GET | Retrieve lifestyle data |
 | `/chat` | POST | AI chat endpoint |
 | `/download_recommendations_pdf` | GET | Download PDF report |
+| `/api/foods` | GET | Get complete food database |
+| `/api/foods/<category>` | GET | Get foods by category |
+| `/api/food_suggestion` | POST | Detailed food suggestions with nutrition |
 
 ---
 
@@ -190,6 +195,69 @@ For mobile app to connect to backend:
 - **Low/Sedentary** - Light, low-calorie options
 - **Medium/Light** - Balanced meals
 - **High/Active** - Energy-rich foods
+
+---
+
+## 🍽️ Food Database API
+
+### Get All Foods
+```bash
+GET http://localhost:5000/api/foods
+```
+
+### Get Foods by Category
+```bash
+GET http://localhost:5000/api/foods/proteins
+GET http://localhost:5000/api/foods/vegetables
+GET http://localhost:5000/api/foods/fruits
+```
+
+### Get Food Suggestion with Nutrition
+```bash
+POST http://localhost:5000/api/food_suggestion
+Content-Type: application/json
+
+{
+  "weight": 70,
+  "height": 170,
+  "goal": "weight loss",
+  "activity": "medium",
+  "allergies": ["dairy"]
+}
+```
+
+### Response Example
+```json
+{
+  "success": true,
+  "user_data": {
+    "weight": 70,
+    "height": 170,
+    "bmi": 24.2,
+    "bmi_category": "Normal weight"
+  },
+  "suggestions": [
+    {"name": "Grilled Chicken", "calories": 165, "protein": 31, "carbs": 0, "fat": 3.6},
+    {"name": "Broccoli", "calories": 34, "protein": 2.8, "carbs": 7, "fat": 0.4}
+  ],
+  "total_nutrition": {"calories": 450, "protein": 85, "carbs": 120, "fat": 25},
+  "meals": {
+    "breakfast": ["Grilled Chicken", "Broccoli", "Papaya"],
+    "lunch": [...],
+    "dinner": [...]
+  }
+}
+```
+
+### Food Categories
+| Category | Examples |
+|----------|----------|
+| `proteins` | Chicken, Salmon, Eggs, Tuna, Greek Yogurt |
+| `carbohydrates` | Brown Rice, Oats, Sweet Potatoes, Quinoa |
+| `vegetables` | Broccoli, Spinach, Carrots, Bell Peppers |
+| `fruits` | Papaya, Blueberries, Orange, Mango |
+| `healthy_fats` | Avocado, Almonds, Olive Oil, Chia Seeds |
+| `snacks` | Hummus, Protein Shake, Trail Mix |
 
 ---
 
