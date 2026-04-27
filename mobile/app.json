@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Healthy Food Suggestion",
+    "slug": "healthy-food-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "sdkVersion": "54.0.0",
+    "platforms": ["android"],
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "android": {
+      "package": "com.healthyfood.app"
+    }
+  }
+}
