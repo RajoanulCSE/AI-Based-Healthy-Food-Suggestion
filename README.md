@@ -276,6 +276,7 @@ This project is licensed under the MIT License.
 ## 👤 Author
 
 - **Name**: Rajoanul Islam Shuvo
+- **Name**: Jahanara Sultana Nipa
 - **GitHub**: [github.com/RajoanulCSE](https://github.com/RajoanulCSE)
 
 ---
